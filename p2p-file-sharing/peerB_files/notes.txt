@@ -1,0 +1,3 @@
+Peer B notes:
+- p2p file system
+- tracker based discovery
