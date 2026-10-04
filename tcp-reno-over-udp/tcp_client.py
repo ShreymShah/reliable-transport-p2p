@@ -41,9 +41,12 @@ def read_chunks(file):
 
     return chunks
 
-if len(sys.argv) != 2:
-    print("Incorrect system arguments to begin the program.")
+if len(sys.argv) not in (2, 3):
+    print("Usage: python3 tcp_client.py <file> [run_label]")
     sys.exit(1)
+
+# Label for the output CSVs, e.g. "10" writes cwnd_10.csv and retransmit_10.csv
+run_label = sys.argv[2] if len(sys.argv) == 3 else "run"
 
 file = sys.argv[1]
 try:
@@ -169,12 +172,12 @@ for _ in range(10):
 
 sock.close()
 
-with open("cwnd_50.csv", "w") as f:
+with open(f"cwnd_{run_label}.csv", "w") as f:
     w = csv.writer(f)
     w.writerow(["cwnd", "time_rtts"])
     w.writerows(cwnd_list)
 
-with open("retransmit_50.csv", "w") as f:
+with open(f"retransmit_{run_label}.csv", "w") as f:
     w = csv.writer(f)
     w.writerow(["count", "time_s"])
     w.writerows(retransmission_list)
